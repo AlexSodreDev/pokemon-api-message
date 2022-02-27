@@ -1,11 +1,11 @@
 import AWS, { SQS } from 'aws-sdk'
 
-(async function main () {
+(async function main() {
   while (true) {
     try {
-      const queueUrl = 'here you place the url of queue in AWS SQS' 
+      const queueUrl = 'here you place the url of queue in AWS SQS'
 
-      const sqs = new AWS.SQS({ region: 'place your aws region here' }) // us-east-1
+      const sqs = new AWS.SQS({ region: 'place your aws region here' })
 
       const params: SQS.Types.ReceiveMessageRequest = {
         QueueUrl: queueUrl,
@@ -15,7 +15,11 @@ import AWS, { SQS } from 'aws-sdk'
       const result = await sqs.receiveMessage(params).promise()
       result?.Messages?.map(async message => {
         console.log(message.Body)
+         await sqs.deleteMessage({
+           QueueUrl: queueUrl,
+           ReceiptHandle: message.ReceiptHandle
+         }).promise()
       })
-
+     
   }
 })()
