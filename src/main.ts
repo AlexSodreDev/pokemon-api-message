@@ -1,11 +1,11 @@
 import AWS, { SQS } from 'aws-sdk'
 
-(async function main() {
+(async function main () {
   while (true) {
     try {
-      const queueUrl = 'https://sqs.us-east-2.amazonaws.com/965030996174/pokemon_send_email'
+      const queueUrl = 'here you place the url of queue in AWS SQS' 
 
-      const sqs = new AWS.SQS({ region: 'us-east-2' })
+      const sqs = new AWS.SQS({ region: 'place your aws region here' }) // us-east-1
 
       const params: SQS.Types.ReceiveMessageRequest = {
         QueueUrl: queueUrl,
@@ -16,8 +16,6 @@ import AWS, { SQS } from 'aws-sdk'
       result?.Messages?.map(async message => {
         console.log(message.Body)
       })
-    } catch (err) {
-      console.log(err)
-    }
+
   }
 })()
